@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TomatoAI — Custom LLM</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.min.js"></script>
+  <!-- Используем стабильную версию ONNX Runtime -->
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.16.3/dist/ort.min.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans h-screen flex flex-col justify-center items-center p-4">
 
@@ -14,7 +15,7 @@
       <span class="text-3xl">🍅</span>
       <div>
         <h1 class="text-xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">TomatoAI Custom LLM</h1>
-        <p id="status" class="text-xs text-yellow-400">⏳ Загрузка...</p>
+        <p id="status" class="text-xs text-yellow-400">⏳ Инициализация...</p>
       </div>
     </div>
 
@@ -31,6 +32,9 @@
   </div>
 
   <script>
+    // Явно указываем ONNX откуда брать файлы WebAssembly (WASM)
+    ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.16.3/dist/";
+
     let session = null;
     let stoi = {};
     let itos = {};
@@ -43,16 +47,21 @@
       try {
         status.textContent = "⏳ Чтение vocab.json...";
         const vocabRes = await fetch('./vocab.json');
+        if (!vocabRes.ok) throw new Error("Файл vocab.json не найден!");
         const vocabData = await vocabRes.json();
         stoi = vocabData.stoi;
         itos = vocabData.itos;
 
-        status.textContent = "⏳ Загрузка TomatoAI.onnx...";
+        status.textContent = "⏳ Скачивание TomatoAI.onnx...";
         const modelRes = await fetch('./TomatoAI.onnx');
+        if (!modelRes.ok) throw new Error("Файл TomatoAI.onnx не найден на GitHub!");
         const buffer = await modelRes.arrayBuffer();
 
-        status.textContent = "⏳ Запуск сессии...";
-        session = await ort.InferenceSession.create(buffer);
+        status.textContent = "⏳ Создание сессии ONNX...";
+        // Запускаем через CPU/WASM движок
+        session = await ort.InferenceSession.create(buffer, {
+          executionProviders: ['wasm']
+        });
 
         status.textContent = "✅ Модель готова!";
         status.className = "text-xs text-green-400 font-bold";
@@ -60,7 +69,7 @@
         btn.classList.remove('opacity-50');
       } catch (err) {
         console.error(err);
-        status.textContent = "❌ Ошибка: " + (err.message || err);
+        status.textContent = "❌ " + (err.message || err);
         status.className = "text-xs text-red-400 font-bold";
       }
     }
@@ -75,31 +84,41 @@
       let tokens = text.split('').map(ch => stoi[ch] !== undefined ? stoi[ch] : 0);
       outputEl.innerHTML = `<b class="text-red-400">${text}</b>`;
 
-      for (let i = 0; i < 40; i++) {
-        const context = tokens.slice(-blockSize);
-        const bigIntData = new BigInt64Array(context.map(x => BigInt(x)));
-        const inputTensor = new ort.Tensor('int64', bigIntData, [1, context.length]);
-
-        const results = await session.run({ input: inputTensor });
-        const logits = results.output.data;
-
-        const vocabSize = Object.keys(itos).length;
-        const lastLogits = logits.slice(-vocabSize);
-
-        let maxIdx = 0;
-        let maxVal = -Infinity;
-        for (let j = 0; j < lastLogits.length; j++) {
-          if (lastLogits[j] > maxVal) {
-            maxVal = lastLogits[j];
-            maxIdx = j;
+      try {
+        for (let i = 0; i < 30; i++) {
+          const context = tokens.slice(-blockSize);
+          
+          // Дополняем нулями, если ввод меньше размера блока
+          while (context.length < blockSize) {
+            context.unshift(0);
           }
+
+          const bigIntData = new BigInt64Array(context.map(x => BigInt(x)));
+          const inputTensor = new ort.Tensor('int64', bigIntData, [1, blockSize]);
+
+          const results = await session.run({ input: inputTensor });
+          const logits = results.output.data;
+
+          const vocabSize = Object.keys(itos).length;
+          const lastLogits = logits.slice(-vocabSize);
+
+          let maxIdx = 0;
+          let maxVal = -Infinity;
+          for (let j = 0; j < lastLogits.length; j++) {
+            if (lastLogits[j] > maxVal) {
+              maxVal = lastLogits[j];
+              maxIdx = j;
+            }
+          }
+
+          tokens.push(maxIdx);
+          const nextChar = itos[maxIdx] || '';
+          outputEl.innerHTML += nextChar;
+
+          await new Promise(r => setTimeout(r, 20));
         }
-
-        tokens.push(maxIdx);
-        const nextChar = itos[maxIdx] || '';
-        outputEl.innerHTML += nextChar;
-
-        await new Promise(r => setTimeout(r, 30));
+      } catch (e) {
+        alert("Ошибка при генерации: " + e.message);
       }
     }
 
