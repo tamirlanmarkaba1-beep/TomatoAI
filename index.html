@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TomatoAI — Моя собственная LLM</title>
+  <title>TomatoAI — Custom LLM</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Используем стабильную версию ONNX Runtime Web -->
-  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/ort.min.js"></script>
+  <!-- Используем стабильный CDN для ONNX Runtime Web -->
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.min.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans h-screen flex flex-col justify-center items-center p-4">
 
@@ -15,16 +15,16 @@
       <span class="text-3xl">🍅</span>
       <div>
         <h1 class="text-xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">TomatoAI Custom LLM</h1>
-        <p id="status" class="text-xs text-yellow-400">⏳ Загрузка vocab.json и TomatoAI.onnx...</p>
+        <p id="status" class="text-xs text-yellow-400">⏳ Инициализация...</p>
       </div>
     </div>
 
-    <!-- Поле чата/вывода -->
+    <!-- Вывод нейросети -->
     <div id="output" class="w-full h-48 bg-gray-950 rounded-xl p-4 text-sm font-mono overflow-y-auto mb-4 border border-gray-800 leading-relaxed">
       <span class="text-gray-500">Здесь появится ответ твоей нейросети...</span>
     </div>
 
-    <!-- Форма ввода -->
+    <!-- Ввод -->
     <div class="flex space-x-2">
       <input type="text" id="userInput" placeholder="Начни писать: Привет" value="Привет" class="flex-1 bg-gray-700 border border-gray-600 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-red-500">
       <button id="btnGenerate" disabled onclick="generateText()" class="bg-red-600 hover:bg-red-500 font-medium px-5 py-2.5 rounded-xl text-sm transition opacity-50">
@@ -34,9 +34,6 @@
   </div>
 
   <script>
-    // Настройка WASM путей для ONNX Runtime
-    ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/';
-
     let session = null;
     let stoi = {};
     let itos = {};
@@ -47,26 +44,32 @@
       const btn = document.getElementById('btnGenerate');
 
       try {
-        // 1. Загрузка vocab.json по прямому имени
-        const vocabRes = await fetch('vocab.json');
-        if (!vocabRes.ok) throw new Error('Не удалось загрузить vocab.json');
+        // 1. Загрузка vocab.json
+        status.textContent = "⏳ Загрузка vocab.json...";
+        const vocabRes = await fetch('./vocab.json');
+        if (!vocabRes.ok) throw new Error('Не найден vocab.json');
         const vocabData = await vocabRes.json();
         stoi = vocabData.stoi;
         itos = vocabData.itos;
 
-        // 2. Загрузка TomatoAI.onnx через CPU/WASM движок
-        session = await ort.InferenceSession.create('TomatoAI.onnx', {
-          executionProviders: ['wasm']
-        });
+        // 2. Скачивание файла TomatoAI.onnx в байты
+        status.textContent = "⏳ Загрузка модели TomatoAI.onnx...";
+        const modelRes = await fetch('./TomatoAI.onnx');
+        if (!modelRes.ok) throw new Error('Не найден TomatoAI.onnx');
+        const modelBuffer = await modelRes.arrayBuffer();
 
-        status.textContent = "✅ Собственная LLM готова к работе!";
-        status.className = "text-xs text-green-400";
+        // 3. Создание сессии из байтового массива
+        status.textContent = "⏳ Создание ONNX сессии...";
+        session = await ort.InferenceSession.create(modelBuffer);
+
+        status.textContent = "✅ Модель готова к работе!";
+        status.className = "text-xs text-green-400 font-bold";
         btn.disabled = false;
         btn.classList.remove('opacity-50');
       } catch (err) {
         console.error(err);
-        status.textContent = "❌ Ошибка загрузки: " + err.message;
-        status.className = "text-xs text-red-400";
+        status.textContent = "❌ Ошибка: " + err.message;
+        status.className = "text-xs text-red-400 font-bold";
       }
     }
 
@@ -83,9 +86,9 @@
       for (let i = 0; i < 40; i++) {
         const context = tokens.slice(-blockSize);
         
-        // Создаем массив BigInt для PyTorch LongTensor
-        const BigIntArray = new BigInt64Array(context.map(x => BigInt(x)));
-        const inputTensor = new ort.Tensor('int64', BigIntArray, [1, context.length]);
+        // Преобразуем токены в BigInt64Array
+        const bigIntData = new BigInt64Array(context.map(x => BigInt(x)));
+        const inputTensor = new ort.Tensor('int64', bigIntData, [1, context.length]);
 
         const results = await session.run({ input: inputTensor });
         const logits = results.output.data;
