@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TomatoAI Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans h-screen flex flex-col">
+
+  <!-- Шапка -->
+  <header class="border-b border-gray-800 p-4 flex justify-between items-center bg-gray-950">
+    <div class="flex items-center space-x-3">
+      <span class="text-3xl">🍅</span>
+      <h1 class="text-2xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">TomatoAI Studio</h1>
+    </div>
+    <div class="flex items-center space-x-4">
+      <label class="flex items-center space-x-2 cursor-pointer text-sm bg-gray-800 px-3 py-1.5 rounded-lg">
+        <input type="checkbox" id="webSearchToggle" class="form-checkbox text-red-500 rounded">
+        <span>🌐 Доступ в интернет</span>
+      </label>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <div class="flex-1 flex overflow-hidden">
+    
+    <!-- Панель обучения (Слева) -->
+    <aside class="w-1/3 border-r border-gray-800 p-4 flex flex-col bg-gray-950/50">
+      <h2 class="text-lg font-semibold mb-2 text-red-400">🧠 Обучение TomatoAI</h2>
+      <p class="text-xs text-gray-400 mb-4">Вставьте большой текст или документацию. TomatoAI сохранит их в базу знаний и будет использовать для ответов.</p>
+      
+      <input type="text" id="docTitle" placeholder="Название темы / документа" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 mb-3 text-sm focus:outline-none focus:border-red-500">
+      
+      <textarea id="trainingText" placeholder="Вставьте сюда большой текст для обучения (статьи, книги, инструкции)..." class="w-full flex-1 bg-gray-800 border border-gray-700 rounded-lg p-3 text-sm focus:outline-none focus:border-red-500 resize-none mb-3"></textarea>
+      
+      <button id="btnTrain" class="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-orange-500 text-white font-medium py-2.5 rounded-lg transition duration-200 shadow-lg">
+        Обучить TomatoAI 🚀
+      </button>
+
+      <!-- Список загруженных знаний -->
+      <div class="mt-4 flex-1 overflow-y-auto">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">База знаний (Firebase)</h3>
+        <div id="knowledgeList" class="space-y-2">
+          <!-- Динамические записи -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Окно тестирования / Чата (Справа) -->
+    <main class="flex-1 flex flex-col bg-gray-900">
+      
+      <!-- Чат -->
+      <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4">
+        <div class="bg-gray-800/60 p-4 rounded-xl max-w-2xl border border-gray-700/50">
+          <p class="text-sm font-semibold text-red-400 mb-1">🍅 TomatoAI</p>
+          <p class="text-sm">Привет! Я TomatoAI. Вы можете обучить меня, загрузив тексты слева, или включить поиск в интернете для ответа на любые вопросы!</p>
+        </div>
+      </div>
+
+      <!-- Ввод сообщения -->
+      <div class="p-4 border-t border-gray-800 bg-gray-950">
+        <form id="chatForm" class="flex space-x-2">
+          <input type="text" id="userInput" placeholder="Задайте вопрос TomatoAI..." class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-500">
+          <button type="submit" class="bg-red-600 hover:bg-red-500 px-6 py-3 rounded-xl font-medium transition text-sm">
+            Отправить
+          </button>
+        </form>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Firebase & Логика Приложения -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Конфигурация Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAn6cpUx8-ZWfCqqqEoEr9BTcaZA3J2qwA",
+      authDomain: "tomatoai-da6e2.firebaseapp.com",
+      projectId: "tomatoai-da6e2",
+      storageBucket: "tomatoai-da6e2.firebasestorage.app",
+      messagingSenderId: "36332848463",
+      appId: "1:36332848463:web:4cabfc2038cab8e81e313a",
+      measurementId: "G-67Q089Q6MQ"
+    };
+
+    // Инициализация Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    const memoryCollection = collection(db, "knowledge_base");
+
+    // UI элементы
+    const btnTrain = document.getElementById('btnTrain');
+    const docTitle = document.getElementById('docTitle');
+    const trainingText = document.getElementById('trainingText');
+    const knowledgeList = document.getElementById('knowledgeList');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const webSearchToggle = document.getElementById('webSearchToggle');
+
+    // 1. Сохранение знаний (Обучение)
+    btnTrain.addEventListener('click', async () => {
+      const title = docTitle.value.trim();
+      const text = trainingText.value.trim();
+
+      if (!title || !text) {
+        alert("Заполните название и текст для обучения!");
+        return;
+      }
+
+      btnTrain.textContent = "Сохранение в Firebase...";
+      btnTrain.disabled = true;
+
+      try {
+        await addDoc(memoryCollection, {
+          title: title,
+          content: text,
+          createdAt: new Date()
+        });
+        alert("TomatoAI успешно сохранила новые знания!");
+        docTitle.value = '';
+        trainingText.value = '';
+        loadKnowledge();
+      } catch (error) {
+        console.error("Ошибка при сохранении:", error);
+        alert("Ошибка Firebase: " + error.message);
+      } finally {
+        btnTrain.textContent = "Обучить TomatoAI 🚀";
+        btnTrain.disabled = false;
+      }
+    });
+
+    // 2. Загрузка базы знаний из Firebase
+    async function loadKnowledge() {
+      knowledgeList.innerHTML = '';
+      try {
+        const snapshot = await getDocs(memoryCollection);
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const item = document.createElement('div');
+          item.className = "bg-gray-800/80 p-2.5 rounded border border-gray-700 text-xs";
+          item.innerHTML = `<b class="text-red-400">${data.title}</b><p class="text-gray-400 truncate mt-1">${data.content.substring(0, 60)}...</p>`;
+          knowledgeList.appendChild(item);
+        });
+      } catch (e) {
+        console.error("Ошибка загрузки знаний:", e);
+      }
+    }
+    loadKnowledge();
+
+    // 3. Функция веб-поиска (Доступ в интернет через Wikipedia API)
+    async function searchWeb(queryText) {
+      try {
+        const response = await fetch(`https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(queryText)}&format=json&origin=*`);
+        const data = await response.json();
+        if (data.query.search.length > 0) {
+          // Берем самый релевантный результат и очищаем HTML теги
+          let snippet = data.query.search[0].snippet.replace(/<\/?[^>]+(>|$)/g, "");
+          return `[Из Интернета]: ${data.query.search[0].title} — ${snippet}`;
+        }
+        return "В интернете ничего не найдено.";
+      } catch (err) {
+        return "Ошибка интернет-поиска.";
+      }
+    }
+
+    // 4. Логика ответа ИИ (Поиск по локальной памяти + Интернет)
+    async function getTomatoResponse(prompt) {
+      let memoryContext = "";
+      
+      // Ищем совпадения в загруженных текстах (Память Firebase)
+      const snapshot = await getDocs(memoryCollection);
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.content.toLowerCase().includes(prompt.toLowerCase()) || prompt.toLowerCase().includes(data.title.toLowerCase())) {
+          memoryContext += `\n[База знаний: ${data.title}]: ${data.content}`;
+        }
+      });
+
+      // Поиск в интернете если включен чекбокс
+      let webContext = "";
+      if (webSearchToggle.checked) {
+        webContext = await searchWeb(prompt);
+      }
+
+      // Генерация итогового ответа
+      if (memoryContext) {
+        return `<b>Ответ на основе обученных данных:</b><br>${memoryContext.substring(0, 500)}...`;
+      } else if (webContext) {
+        return `<b>Ответ с использованием интернета:</b><br>${webContext}`;
+      } else {
+        return `Я еще не обучен этой теме и не нашел информацию. Загрузите текст в панель слева, чтобы научить меня!`;
+      }
+    }
+
+    // 5. Обработка отправки в чат
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      // Отрисовка сообщения пользователя
+      appendMessage("Пользователь", text, "bg-red-900/40 border-red-700/50 self-end");
+      userInput.value = '';
+
+      // Генерация ответа ИИ
+      const loadingId = appendMessage("🍅 TomatoAI", "Думаю...", "bg-gray-800/60 border-gray-700/50");
+      const response = await getTomatoResponse(text);
+      
+      // Обновляем текст ответа
+      document.getElementById(loadingId).querySelector('.msg-body').innerHTML = response;
+    });
+
+    function appendMessage(sender, text, styleClasses) {
+      const id = 'msg-' + Date.now();
+      const div = document.createElement('div');
+      div.id = id;
+      div.className = `p-4 rounded-xl border ${styleClasses} max-w-2xl`;
+      div.innerHTML = `
+        <p class="text-xs font-semibold ${sender === 'Пользователь' ? 'text-red-300' : 'text-orange-400'} mb-1">${sender}</p>
+        <div class="msg-body text-sm">${text}</div>
+      `;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return id;
+    }
+  </script>
+</body>
+</html>
