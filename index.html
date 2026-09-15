@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TomatoAI — Моя собственная LLM</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Библиотека для работы ONNX моделей в браузере -->
-  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+  <!-- Используем стабильную версию ONNX Runtime Web -->
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/ort.min.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans h-screen flex flex-col justify-center items-center p-4">
 
@@ -34,26 +34,29 @@
   </div>
 
   <script>
+    // Настройка WASM путей для ONNX Runtime
+    ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/';
+
     let session = null;
     let stoi = {};
     let itos = {};
-    const blockSize = 16; // Контекст из PyTorch
+    const blockSize = 16;
 
-    // Загрузка словаря и модели
     async function init() {
       const status = document.getElementById('status');
       const btn = document.getElementById('btnGenerate');
 
       try {
-        // 1. Читаем vocab.json
-        const vocabRes = await fetch('./vocab.json');
+        // 1. Загрузка vocab.json по прямому имени
+        const vocabRes = await fetch('vocab.json');
+        if (!vocabRes.ok) throw new Error('Не удалось загрузить vocab.json');
         const vocabData = await vocabRes.json();
         stoi = vocabData.stoi;
         itos = vocabData.itos;
 
-        // 2. Загружаем TomatoAI.onnx
-        session = await ort.InferenceSession.create('./TomatoAI.onnx', {
-          executionProviders: ['wasm', 'webgl']
+        // 2. Загрузка TomatoAI.onnx через CPU/WASM движок
+        session = await ort.InferenceSession.create('TomatoAI.onnx', {
+          executionProviders: ['wasm']
         });
 
         status.textContent = "✅ Собственная LLM готова к работе!";
@@ -62,40 +65,34 @@
         btn.classList.remove('opacity-50');
       } catch (err) {
         console.error(err);
-        status.textContent = "❌ Убедитесь, что TomatoAI.onnx и vocab.json лежат рядом с index.html";
+        status.textContent = "❌ Ошибка загрузки: " + err.message;
         status.className = "text-xs text-red-400";
       }
     }
 
-    // Генерация текста нейросетью
     async function generateText() {
       const inputEl = document.getElementById('userInput');
       const outputEl = document.getElementById('output');
       const text = inputEl.value.trim();
 
-      if (!text) return;
+      if (!text || !session) return;
 
-      // Переводим текст в числа (токены)
       let tokens = text.split('').map(ch => stoi[ch] !== undefined ? stoi[ch] : 0);
       outputEl.innerHTML = `<b class="text-red-400">${text}</b>`;
 
-      // Генерируем 50 новых символов
-      for (let i = 0; i < 50; i++) {
-        // Берем последние 16 символов
+      for (let i = 0; i < 40; i++) {
         const context = tokens.slice(-blockSize);
         
-        // Формируем тензор
-        const inputTensor = new ort.Tensor('int64', BigInt64Array.from(context.map(BigInt)), [1, context.length]);
+        // Создаем массив BigInt для PyTorch LongTensor
+        const BigIntArray = new BigInt64Array(context.map(x => BigInt(x)));
+        const inputTensor = new ort.Tensor('int64', BigIntArray, [1, context.length]);
 
-        // Прогоняем через нейросеть
         const results = await session.run({ input: inputTensor });
         const logits = results.output.data;
 
-        // Получаем вероятности для последнего символа
         const vocabSize = Object.keys(itos).length;
         const lastLogits = logits.slice(-vocabSize);
 
-        // Находим лучшую букву
         let maxIdx = 0;
         let maxVal = -Infinity;
         for (let j = 0; j < lastLogits.length; j++) {
@@ -109,8 +106,7 @@
         const nextChar = itos[maxIdx] || '';
         outputEl.innerHTML += nextChar;
 
-        // Эффект печати
-        await new Promise(r => setTimeout(r, 40));
+        await new Promise(r => setTimeout(r, 30));
       }
     }
 
