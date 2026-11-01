@@ -1,93 +1,232 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#091c22">
-<title>TomatoCodeAI — Скачать</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#160b0d">
+<title>TomatoCodeAI — Version 1.0</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-:root{
- --bg:#091c22;
- --surface:#112b32;
- --surface2:#17343b;
- --cyan:#a2d3df;
- --cyan2:#bce6ee;
- --white:#eaf5f6;
- --muted:#9db8bd;
- --line:#28434a;
+:root {
+ --bg:#13090b;
+ --surface:#211013;
+ --surface2:#30171b;
+ --red:#ff454f;
+ --red2:#ff7378;
+ --red-light:#ffb2b4;
+ --white:#fff2f2;
+ --muted:#c5a7aa;
+ --line:#48252b;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
+
+* {
+ box-sizing:border-box;
+}
+
+html {
+ scroll-behavior:smooth;
+}
+
+body {
  margin:0;
  background:var(--bg);
  color:var(--white);
  font-family:Nunito,sans-serif;
  overflow-x:hidden;
 }
-a{text-decoration:none;color:inherit}
-button,input,textarea{font:inherit}
-.container{
+
+a {
+ color:inherit;
+ text-decoration:none;
+}
+
+button,input,textarea {
+ font:inherit;
+}
+
+.container {
  width:min(1100px,calc(100% - 42px));
  margin:auto;
 }
 
-/* BACKGROUND */
+/* ANIMATED BACKGROUND */
 
-.background-shapes{
+.background-shapes {
  position:fixed;
  inset:0;
  overflow:hidden;
  pointer-events:none;
  z-index:-1;
+ background:
+ radial-gradient(ellipse at 20% 15%,#57171c55,transparent 45%),
+ radial-gradient(ellipse at 85% 70%,#68171e44,transparent 45%),
+ #13090b;
 }
-.shape{
+
+.shape {
  position:absolute;
- background:#19343b;
- opacity:.65;
- border-radius:40% 60% 55% 45% / 50% 40% 60% 50%;
+ border:1px solid #ff55551c;
+ background:linear-gradient(145deg,#ff454f12,#ff202008);
+ backdrop-filter:blur(2px);
+ will-change:transform;
 }
-.s1{
- width:350px;height:300px;
- top:150px;right:-120px;
- transform:rotate(35deg);
+
+/* HEXAGONS */
+
+.hex {
+ width:180px;
+ height:156px;
+ clip-path:polygon(
+  25% 0%,75% 0%,100% 50%,
+  75% 100%,25% 100%,0% 50%
+ );
+ border-radius:20px;
+ background:#ff454f12;
+ border:0;
+ animation:hexFloat 28s ease-in-out infinite alternate;
 }
-.s2{
- width:320px;height:350px;
- top:650px;left:-170px;
- transform:rotate(-25deg);
+
+.hex::after {
+ content:"";
+ position:absolute;
+ inset:5px;
+ clip-path:inherit;
+ border:1px solid #ff73782b;
 }
-.s3{
- width:400px;height:350px;
- top:1150px;right:-190px;
+
+.hex1 {
+ top:12%;
+ left:-45px;
+ animation-duration:32s;
 }
-.s4{
- width:300px;height:300px;
- top:1750px;left:-130px;
+
+.hex2 {
+ top:40%;
+ right:-60px;
+ width:240px;
+ height:208px;
+ animation-duration:38s;
+ animation-delay:-10s;
+}
+
+.hex3 {
+ top:75%;
+ left:10%;
+ width:130px;
+ height:113px;
+ animation-duration:35s;
+ animation-delay:-15s;
+}
+
+.hex4 {
+ top:110%;
+ right:12%;
+ width:200px;
+ height:173px;
+ animation-duration:40s;
+}
+
+/* ROUNDED SHAPES */
+
+.blob {
+ border-radius:42% 58% 62% 38% / 48% 43% 57% 52%;
+ animation:blobFloat 35s ease-in-out infinite alternate;
+}
+
+.blob1 {
+ width:350px;
+ height:310px;
+ top:18%;
+ right:10%;
+}
+
+.blob2 {
+ width:280px;
+ height:350px;
+ top:95%;
+ left:-140px;
+ animation-duration:40s;
+ animation-delay:-12s;
+}
+
+.blob3 {
+ width:320px;
+ height:270px;
+ top:180%;
+ right:-150px;
+ animation-duration:38s;
+}
+
+.blob4 {
+ width:230px;
+ height:230px;
+ top:240%;
+ left:15%;
+ animation-duration:33s;
+ animation-delay:-8s;
+}
+
+.squircle {
+ width:180px;
+ height:180px;
+ border-radius:35% 65% 40% 60% / 60% 35% 65% 40%;
+ animation:squircleFloat 30s ease-in-out infinite alternate;
+}
+
+.sq1 {
+ top:55%;
+ left:65%;
+}
+
+.sq2 {
+ top:150%;
+ left:5%;
+ width:130px;
+ height:130px;
+ animation-delay:-13s;
+}
+
+@keyframes hexFloat {
+ 0% {transform:translate(0,0) rotate(0deg)}
+ 50% {transform:translate(40px,-55px) rotate(15deg)}
+ 100% {transform:translate(-25px,60px) rotate(35deg)}
+}
+
+@keyframes blobFloat {
+ 0% {transform:translate(0,0) rotate(0deg) scale(1)}
+ 50% {transform:translate(-55px,45px) rotate(25deg) scale(1.12)}
+ 100% {transform:translate(45px,-50px) rotate(-20deg) scale(.95)}
+}
+
+@keyframes squircleFloat {
+ 0% {transform:translateY(0) rotate(0deg)}
+ 100% {transform:translateY(-100px) rotate(50deg)}
 }
 
 /* HEADER */
 
-header{
+header {
  position:sticky;
  top:0;
- z-index:10;
- background:#091c22ed;
- backdrop-filter:blur(20px);
- border-bottom:1px solid #29404770;
+ z-index:20;
+ background:#13090bee;
+ backdrop-filter:blur(22px);
+ border-bottom:1px solid #ffffff0c;
 }
-nav{
- min-height:85px;
+
+nav {
+ min-height:82px;
  display:flex;
  align-items:center;
  justify-content:space-between;
  gap:12px;
 }
-.brand{
+
+.brand {
  display:flex;
  align-items:center;
  gap:10px;
@@ -95,140 +234,185 @@ nav{
  font-weight:1000;
  min-width:0;
 }
-.brand img{
+
+.brand img {
  width:43px;
  height:43px;
  object-fit:contain;
  flex-shrink:0;
 }
-.you{
- background:var(--cyan);
- color:#10262c;
+
+.you {
+ background:var(--red);
+ color:white;
  padding:7px 14px;
  border-radius:30px;
  font-size:15px;
 }
-.nav-download{
- background:var(--cyan);
- color:#10262c;
+
+.nav-download {
+ background:var(--red);
+ color:white;
  padding:14px 28px;
  border-radius:50px;
  font-size:17px;
  font-weight:1000;
- transition:.2s;
  white-space:nowrap;
+ transition:.25s;
 }
-.nav-download:hover{transform:scale(1.04)}
+
+.nav-download:hover {
+ transform:scale(1.05);
+ background:#ff6269;
+}
 
 /* HERO */
 
-.hero{
- padding:65px 0 25px;
- position:relative;
+.hero {
+ padding:70px 0 25px;
 }
-.eyebrow{
- color:var(--cyan);
+
+.eyebrow {
+ color:var(--red2);
  font-weight:1000;
  font-size:15px;
  letter-spacing:3px;
  text-transform:uppercase;
 }
-h1{
+
+.version {
+ display:inline-flex;
+ align-items:center;
+ gap:9px;
+ padding:9px 17px;
+ border:1px solid #ff454f55;
+ border-radius:40px;
+ background:#ff454f13;
+ color:var(--red-light);
+ font-weight:900;
+ margin-top:25px;
+}
+
+.version-dot {
+ width:8px;
+ height:8px;
+ background:#ff454f;
+ border-radius:50%;
+ box-shadow:0 0 12px #ff454f;
+}
+
+h1 {
  font-size:clamp(38px,8vw,82px);
  line-height:1.04;
  letter-spacing:-2px;
- margin:28px 0 35px;
+ margin:25px 0 30px;
  font-weight:1000;
- max-width:100%;
  overflow-wrap:anywhere;
- word-break:normal;
 }
-h1 span{
- color:var(--cyan);
+
+h1 span {
  display:block;
+ color:var(--red);
  overflow-wrap:anywhere;
 }
-.description{
+
+.description {
  max-width:720px;
  font-size:22px;
  line-height:1.8;
  color:var(--muted);
  font-weight:650;
 }
-.download-main{
+
+.download-main {
  display:flex;
  align-items:center;
  justify-content:center;
  gap:18px;
  width:100%;
- min-height:116px;
- background:var(--cyan);
- color:#10242a;
+ min-height:112px;
+ background:var(--red);
+ color:white;
  border-radius:100px;
- margin-top:60px;
- font-size:31px;
+ margin-top:55px;
+ font-size:30px;
  font-weight:1000;
- transition:.25s;
+ transition:.3s;
 }
-.download-main:hover{
- background:var(--cyan2);
- transform:translateY(-4px);
- box-shadow:0 15px 45px #8ed2e222;
+
+.download-main:hover {
+ background:#ff6269;
+ transform:translateY(-5px);
+ box-shadow:0 15px 50px #ff303033;
 }
-.download-main svg{
+
+.download-main svg {
  width:35px;
  height:35px;
  flex-shrink:0;
 }
-.file-info{
- margin-top:23px;
+
+.file-info {
+ margin-top:20px;
  color:var(--muted);
- font-size:17px;
+ font-size:16px;
  font-weight:750;
 }
-.badges{
+
+.badges {
  display:flex;
  gap:12px;
  flex-wrap:wrap;
- margin-top:45px;
+ margin-top:40px;
 }
-.badge{
+
+.badge {
  border:1px solid var(--line);
- padding:15px 22px;
+ background:#ff454f08;
+ padding:14px 21px;
  border-radius:50px;
  display:flex;
  align-items:center;
- gap:12px;
- font-size:17px;
+ gap:11px;
+ font-size:16px;
  font-weight:850;
- color:#d6e8ea;
+ color:#f6dfe0;
 }
-.badge span{
+
+.badge span {
  font-size:22px;
- color:var(--cyan);
+ color:var(--red2);
 }
 
 /* PHONE PREVIEW */
 
-.preview{
- padding:75px 0 60px;
+.preview {
+ padding:80px 0 65px;
  display:flex;
  justify-content:center;
- position:relative;
 }
-.phone{
+
+.phone {
  width:330px;
  min-height:490px;
  padding:12px;
- background:#11131a;
- border:5px solid #292b34;
+ background:#111015;
+ border:5px solid #393039;
  border-radius:55px;
- box-shadow:0 25px 90px #0007;
+ box-shadow:0 25px 90px #0009;
  transform:rotate(-3deg);
+ transition:.5s;
 }
-.screen{
+
+.phone:hover {
+ transform:rotate(0deg) translateY(-8px);
+}
+
+.screen {
  min-height:460px;
- background:linear-gradient(145deg,#45415e,#172f3b);
+ background:
+ radial-gradient(circle at 50% 40%,#ff454f55,transparent 45%),
+ linear-gradient(145deg,#49252d,#180d12);
  border-radius:40px;
  overflow:hidden;
  display:flex;
@@ -237,81 +421,96 @@ h1 span{
  justify-content:center;
  padding:25px;
 }
-.phone-logo{
+
+.phone-logo {
  width:130px;
  height:130px;
  object-fit:contain;
- background:#e8f4f6;
+ background:#fff1f1;
  border-radius:42px;
  padding:12px;
 }
-.phone-title{
+
+.phone-title {
  font-size:25px;
  font-weight:1000;
  margin-top:22px;
  text-align:center;
 }
-.phone-sub{
- color:#c5d7dd;
+
+.phone-sub {
+ color:#e6b8bb;
  text-align:center;
  margin-top:8px;
 }
-.phone-line{
+
+.phone-line {
  width:65%;
  height:7px;
- background:#a4d7e2;
+ background:var(--red);
  border-radius:20px;
  margin-top:35px;
- opacity:.7;
+ opacity:.8;
 }
 
-/* FEATURES */
+/* SECTIONS */
 
-section{padding:75px 0}
-.section-title{
+section {
+ padding:75px 0;
+}
+
+.section-title {
  font-size:43px;
  font-weight:1000;
  margin:0 0 18px;
  letter-spacing:-1px;
 }
-.section-text{
+
+.section-text {
  color:var(--muted);
  font-size:18px;
  line-height:1.8;
  font-weight:650;
 }
-.grid{
+
+.grid {
  display:grid;
  grid-template-columns:repeat(3,1fr);
  gap:17px;
  margin-top:35px;
 }
-.card{
+
+.card {
  background:var(--surface);
  border:1px solid var(--line);
  border-radius:32px 32px 32px 12px;
  padding:28px;
  transition:.3s;
 }
-.card:hover{
+
+.card:hover {
  transform:translateY(-7px);
  background:var(--surface2);
+ border-color:#ff454f55;
 }
-.card-icon{
+
+.card-icon {
  width:58px;
  height:58px;
  display:grid;
  place-items:center;
- background:#24434c;
- color:var(--cyan);
+ background:#ff454f1c;
+ color:var(--red2);
  border-radius:23px 23px 23px 8px;
  font-size:27px;
 }
-.card h3{
+
+.card h3 {
  font-size:21px;
  margin:20px 0 10px;
 }
-.card p{
+
+.card p {
  color:var(--muted);
  line-height:1.7;
  margin:0;
@@ -320,73 +519,89 @@ section{padding:75px 0}
 
 /* ABOUT */
 
-.about{
+.about {
  background:var(--surface);
  border:1px solid var(--line);
  border-radius:40px 40px 40px 12px;
  padding:40px;
 }
-.about-label{
- color:var(--cyan);
+
+.about-label {
+ color:var(--red2);
  font-weight:1000;
  letter-spacing:2px;
 }
-.about h2{
+
+.about h2 {
  font-size:39px;
  line-height:1.2;
 }
-.about p{
+
+.about p {
  color:var(--muted);
  font-size:17px;
  line-height:1.8;
 }
-.links{
+
+.links {
  display:flex;
  gap:12px;
  flex-wrap:wrap;
  margin-top:25px;
 }
-.link-btn{
+
+.link-btn {
  display:inline-flex;
  padding:15px 24px;
  border-radius:40px;
- background:#23434c;
- color:var(--cyan);
+ background:#ff454f1c;
+ color:var(--red-light);
  font-weight:1000;
+ border:1px solid #ff454f22;
  transition:.2s;
 }
-.link-btn:hover{background:#315a65}
+
+.link-btn:hover {
+ background:#ff454f35;
+}
 
 /* COMMENTS */
 
-.comments{
+.comments {
  max-width:760px;
  margin:auto;
 }
-.comment-form{
+
+.comment-form {
  background:var(--surface);
  padding:25px;
  border:1px solid var(--line);
  border-radius:32px 32px 32px 12px;
 }
-.field{
+
+.field {
  width:100%;
  padding:17px;
- background:#0b2026;
+ background:#160c0e;
  color:white;
  border:1px solid var(--line);
  border-radius:20px;
  margin-bottom:13px;
  outline:none;
 }
-.field:focus{border-color:var(--cyan)}
-textarea.field{
+
+.field:focus {
+ border-color:var(--red);
+}
+
+textarea.field {
  height:120px;
  resize:vertical;
 }
-.send{
- background:var(--cyan);
- color:#10242a;
+
+.send {
+ background:var(--red);
+ color:white;
  border:0;
  padding:15px 25px;
  border-radius:30px;
@@ -394,9 +609,16 @@ textarea.field{
  cursor:pointer;
  transition:.2s;
 }
-.send:hover{background:var(--cyan2)}
-.send:disabled{opacity:.5}
-.comment{
+
+.send:hover {
+ background:#ff6269;
+}
+
+.send:disabled {
+ opacity:.5;
+}
+
+.comment {
  background:var(--surface);
  border:1px solid var(--line);
  border-radius:25px 25px 25px 9px;
@@ -404,14 +626,25 @@ textarea.field{
  margin-top:13px;
  overflow-wrap:anywhere;
 }
-.comment strong{color:var(--cyan)}
-.comment p{
- color:#c5d5d8;
+
+.comment strong {
+ color:var(--red2);
+}
+
+.comment p {
+ color:#e2cacc;
  line-height:1.7;
 }
-.comment small{color:#78969d}
-#comments-list{margin-top:20px}
-.status{
+
+.comment small {
+ color:#a17e82;
+}
+
+#comments-list {
+ margin-top:20px;
+}
+
+.status {
  color:var(--muted);
  font-size:14px;
  margin-top:12px;
@@ -419,107 +652,171 @@ textarea.field{
 
 /* FOOTER */
 
-footer{
+footer {
  border-top:1px solid var(--line);
  padding:35px 0;
  color:var(--muted);
 }
-.footer-inner{
+
+.footer-inner {
  display:flex;
  justify-content:space-between;
  align-items:center;
  gap:20px;
  flex-wrap:wrap;
 }
-.footer-links{
+
+.footer-links {
  display:flex;
  gap:20px;
 }
-.footer-links a:hover{color:var(--cyan)}
 
-/* ANIMATIONS */
+.footer-links a:hover {
+ color:var(--red2);
+}
 
-.reveal{
+/* SCROLL ANIMATIONS */
+
+.reveal {
  opacity:0;
  transform:translateY(35px);
  transition:opacity .8s,transform .8s;
 }
-.reveal.show{
+
+.reveal.show {
  opacity:1;
  transform:translateY(0);
 }
 
 /* MOBILE */
 
-@media(max-width:750px){
- .container{width:calc(100% - 36px)}
- nav{min-height:75px}
- .brand{
+@media(max-width:750px) {
+ .container {
+  width:calc(100% - 36px);
+ }
+
+ nav {
+  min-height:75px;
+ }
+
+ .brand {
   font-size:clamp(14px,4.3vw,19px);
   gap:7px;
  }
- .brand img{
+
+ .brand img {
   width:36px;
   height:36px;
  }
- .you{
+
+ .you {
   font-size:12px;
   padding:6px 10px;
  }
- .nav-download{
+
+ .nav-download {
   padding:12px 17px;
   font-size:14px;
  }
- .hero{padding-top:65px}
- h1{
+
+ .hero {
+  padding-top:60px;
+ }
+
+ h1 {
   font-size:clamp(36px,9.5vw,62px);
   line-height:1.08;
   letter-spacing:-1.5px;
-  margin:24px 0 28px;
-  overflow-wrap:anywhere;
  }
- h1 span{
-  display:block;
-  max-width:100%;
+
+ .description {
+  font-size:18px;
  }
- .description{font-size:18px}
- .download-main{
+
+ .download-main {
   min-height:90px;
   font-size:23px;
   gap:12px;
-  margin-top:45px;
+  margin-top:40px;
  }
- .file-info{font-size:14px}
- .badge{
+
+ .file-info {
+  font-size:14px;
+ }
+
+ .badge {
   font-size:14px;
   padding:12px 16px;
  }
- .grid{grid-template-columns:1fr}
- .section-title{font-size:34px}
- .about{padding:25px}
- .about h2{font-size:32px}
- .phone{width:285px}
- .footer-inner{
+
+ .grid {
+  grid-template-columns:1fr;
+ }
+
+ .section-title {
+  font-size:34px;
+ }
+
+ .about {
+  padding:25px;
+ }
+
+ .about h2 {
+  font-size:32px;
+ }
+
+ .phone {
+  width:285px;
+ }
+
+ .footer-inner {
   justify-content:center;
   text-align:center;
  }
+
+ .hex {
+  opacity:.55;
+ }
 }
 
-@media(max-width:380px){
- .brand{font-size:14px}
- .brand img{width:31px;height:31px}
- .you{font-size:11px;padding:5px 8px}
- .nav-download{font-size:12px;padding:11px 13px}
- h1{font-size:clamp(34px,9vw,42px)}
- .eyebrow{font-size:12px;letter-spacing:2px}
+@media(max-width:380px) {
+ .brand {
+  font-size:14px;
+ }
+
+ .brand img {
+  width:31px;
+  height:31px;
+ }
+
+ .you {
+  font-size:11px;
+  padding:5px 8px;
+ }
+
+ .nav-download {
+  font-size:12px;
+  padding:11px 13px;
+ }
+
+ h1 {
+  font-size:clamp(34px,9vw,42px);
+ }
+
+ .eyebrow {
+  font-size:12px;
+  letter-spacing:2px;
+ }
 }
 
-@media(prefers-reduced-motion:reduce){
- *{
+@media(prefers-reduced-motion:reduce) {
+ *,*::before,*::after {
   scroll-behavior:auto!important;
+  animation:none!important;
   transition:none!important;
  }
- .reveal{
+
+ .reveal {
   opacity:1;
   transform:none;
  }
@@ -529,21 +826,36 @@ footer{
 
 <body>
 
+<!-- ANIMATED SHAPES -->
+
 <div class="background-shapes">
- <div class="shape s1"></div>
- <div class="shape s2"></div>
- <div class="shape s3"></div>
- <div class="shape s4"></div>
+ <div class="shape hex hex1"></div>
+ <div class="shape hex hex2"></div>
+ <div class="shape hex hex3"></div>
+ <div class="shape hex hex4"></div>
+
+ <div class="shape blob blob1"></div>
+ <div class="shape blob blob2"></div>
+ <div class="shape blob blob3"></div>
+ <div class="shape blob blob4"></div>
+
+ <div class="shape squircle sq1"></div>
+ <div class="shape squircle sq2"></div>
 </div>
+
+<!-- HEADER -->
 
 <header>
 <nav class="container">
+
  <a class="brand" href="#">
   <img src="logo.png" alt="TomatoCodeAI">
   <span>TomatoCodeAI</span>
   <span class="you">AI</span>
  </a>
+
  <a href="#download" class="nav-download">Скачать</a>
+
 </nav>
 </header>
 
@@ -555,9 +867,14 @@ footer{
 
  <div class="eyebrow">APK ДЛЯ ANDROID</div>
 
+ <div class="version">
+  <span class="version-dot"></span>
+  VERSION 1.0
+ </div>
+
  <h1>
   Скачать
-  <span>TomatoCode</span>
+  <span>TomatoCodeAI</span>
  </h1>
 
  <p class="description">
@@ -567,22 +884,29 @@ footer{
  </p>
 
  <div id="download">
+
   <a class="download-main" href="TomatocodeAI-v1.apk" download>
+
    <svg viewBox="0 0 24 24" fill="currentColor">
     <path d="M5 20h14v-2H5v2zM11 2h2v10l4-4 1.4 1.4L12 16l-6.4-6.6L7 8l4 4V2z"/>
    </svg>
+
    Скачать APK
+
   </a>
 
   <div class="file-info">
-   APK для Android · Последняя версия
+   TomatoCodeAI v1.0 · Android
   </div>
+
  </div>
 
  <div class="badges">
+
   <div class="badge"><span>♟</span> Android 7.0+</div>
   <div class="badge"><span>♥</span> Бесплатно</div>
   <div class="badge"><span>⊘</span> Без рекламы</div>
+
  </div>
 
 </div>
@@ -590,14 +914,23 @@ footer{
 <!-- PHONE PREVIEW -->
 
 <div class="container preview reveal">
+
  <div class="phone">
+
   <div class="screen">
+
    <img src="logo.png" class="phone-logo" alt="TomatoCodeAI">
+
    <div class="phone-title">TomatoCodeAI</div>
+
    <div class="phone-sub">Your AI coding assistant</div>
+
    <div class="phone-line"></div>
+
   </div>
+
  </div>
+
 </div>
 
 <!-- FEATURES -->
@@ -608,6 +941,7 @@ footer{
  <div class="reveal">
   <div class="eyebrow">ВОЗМОЖНОСТИ</div>
   <h2 class="section-title">Больше, чем просто AI</h2>
+
   <p class="section-text">
    Инструмент для творчества, программирования и новых идей.
   </p>
@@ -641,6 +975,7 @@ footer{
 
 <section>
 <div class="container">
+
  <div class="about reveal">
 
   <div class="about-label">ABOUT TOMATOCODEAI</div>
@@ -654,6 +989,7 @@ footer{
   </p>
 
   <div class="links">
+
    <a class="link-btn"
       href="https://t.me/TomatocodeAI"
       target="_blank">
@@ -665,6 +1001,7 @@ footer{
       target="_blank">
       SlimChat ↗
    </a>
+
   </div>
 
  </div>
@@ -677,11 +1014,15 @@ footer{
 <div class="container comments">
 
  <div class="reveal">
+
   <div class="eyebrow">COMMUNITY</div>
+
   <h2 class="section-title">Комментарии</h2>
+
   <p class="section-text">
    Поделись мнением о приложении!
   </p>
+
  </div>
 
  <form class="comment-form reveal" id="form">
@@ -724,7 +1065,7 @@ footer{
 <footer>
 <div class="container footer-inner">
 
- <div>© 2026 TomatoCodeAI</div>
+ <div>© 2026 TomatoCodeAI · Version 1.0</div>
 
  <div class="footer-links">
   <a href="https://t.me/TomatocodeAI">Telegram</a>
