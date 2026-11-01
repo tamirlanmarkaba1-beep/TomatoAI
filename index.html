@@ -1,17 +1,18 @@
-Good 
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#091e24">
+<meta name="theme-color" content="#091c22">
 <title>TomatoCodeAI — Скачать</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 :root{
  --bg:#091c22;
- --bg2:#0d252c;
  --surface:#112b32;
  --surface2:#17343b;
  --cyan:#a2d3df;
@@ -19,86 +20,155 @@ Good
  --white:#eaf5f6;
  --muted:#9db8bd;
  --line:#28434a;
- --r:36px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
- margin:0;background:var(--bg);color:var(--white);
- font-family:Nunito,sans-serif;overflow-x:hidden;
+ margin:0;
+ background:var(--bg);
+ color:var(--white);
+ font-family:Nunito,sans-serif;
+ overflow-x:hidden;
 }
-a{color:inherit;text-decoration:none}
+a{text-decoration:none;color:inherit}
 button,input,textarea{font:inherit}
-.container{width:min(1100px,calc(100% - 42px));margin:auto}
+.container{
+ width:min(1100px,calc(100% - 42px));
+ margin:auto;
+}
 
 /* BACKGROUND */
+
 .background-shapes{
- position:fixed;inset:0;overflow:hidden;
- pointer-events:none;z-index:-1;
+ position:fixed;
+ inset:0;
+ overflow:hidden;
+ pointer-events:none;
+ z-index:-1;
 }
 .shape{
- position:absolute;background:#19343b;
+ position:absolute;
+ background:#19343b;
  opacity:.65;
  border-radius:40% 60% 55% 45% / 50% 40% 60% 50%;
 }
-.s1{width:350px;height:300px;top:150px;right:-120px;transform:rotate(35deg)}
-.s2{width:320px;height:350px;top:650px;left:-170px;transform:rotate(-25deg)}
-.s3{width:400px;height:350px;top:1150px;right:-190px}
-.s4{width:300px;height:300px;top:1750px;left:-130px}
+.s1{
+ width:350px;height:300px;
+ top:150px;right:-120px;
+ transform:rotate(35deg);
+}
+.s2{
+ width:320px;height:350px;
+ top:650px;left:-170px;
+ transform:rotate(-25deg);
+}
+.s3{
+ width:400px;height:350px;
+ top:1150px;right:-190px;
+}
+.s4{
+ width:300px;height:300px;
+ top:1750px;left:-130px;
+}
 
 /* HEADER */
+
 header{
- position:sticky;top:0;z-index:10;
- background:#091c22eF;
+ position:sticky;
+ top:0;
+ z-index:10;
+ background:#091c22ed;
  backdrop-filter:blur(20px);
  border-bottom:1px solid #29404770;
 }
 nav{
- min-height:85px;display:flex;align-items:center;
- justify-content:space-between;gap:15px;
+ min-height:85px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
 }
-.brand{display:flex;align-items:center;gap:13px;font-size:24px;font-weight:1000}
-.brand img{width:45px;height:45px;object-fit:contain}
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-size:22px;
+ font-weight:1000;
+ min-width:0;
+}
+.brand img{
+ width:43px;
+ height:43px;
+ object-fit:contain;
+ flex-shrink:0;
+}
 .you{
- background:var(--cyan);color:#10262c;
- padding:8px 17px;border-radius:30px;
- font-size:16px;margin-left:3px;
+ background:var(--cyan);
+ color:#10262c;
+ padding:7px 14px;
+ border-radius:30px;
+ font-size:15px;
 }
 .nav-download{
- background:var(--cyan);color:#10262c;
- padding:14px 30px;border-radius:50px;
- font-size:17px;font-weight:1000;
+ background:var(--cyan);
+ color:#10262c;
+ padding:14px 28px;
+ border-radius:50px;
+ font-size:17px;
+ font-weight:1000;
  transition:.2s;
+ white-space:nowrap;
 }
 .nav-download:hover{transform:scale(1.04)}
 
 /* HERO */
+
 .hero{
  padding:65px 0 25px;
  position:relative;
 }
 .eyebrow{
- color:var(--cyan);font-weight:1000;
- font-size:15px;letter-spacing:3px;
+ color:var(--cyan);
+ font-weight:1000;
+ font-size:15px;
+ letter-spacing:3px;
  text-transform:uppercase;
 }
 h1{
- font-size:clamp(55px,9vw,92px);
- line-height:.98;letter-spacing:-3px;
- margin:28px 0 35px;font-weight:1000;
+ font-size:clamp(38px,8vw,82px);
+ line-height:1.04;
+ letter-spacing:-2px;
+ margin:28px 0 35px;
+ font-weight:1000;
+ max-width:100%;
+ overflow-wrap:anywhere;
+ word-break:normal;
 }
-h1 span{color:var(--cyan)}
+h1 span{
+ color:var(--cyan);
+ display:block;
+ overflow-wrap:anywhere;
+}
 .description{
- max-width:720px;font-size:22px;
- line-height:1.8;color:var(--muted);
+ max-width:720px;
+ font-size:22px;
+ line-height:1.8;
+ color:var(--muted);
  font-weight:650;
 }
 .download-main{
- display:flex;align-items:center;justify-content:center;
- gap:18px;width:100%;min-height:116px;
- background:var(--cyan);color:#10242a;
- border-radius:100px;margin-top:60px;
- font-size:31px;font-weight:1000;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:18px;
+ width:100%;
+ min-height:116px;
+ background:var(--cyan);
+ color:#10242a;
+ border-radius:100px;
+ margin-top:60px;
+ font-size:31px;
+ font-weight:1000;
  transition:.25s;
 }
 .download-main:hover{
@@ -106,182 +176,358 @@ h1 span{color:var(--cyan)}
  transform:translateY(-4px);
  box-shadow:0 15px 45px #8ed2e222;
 }
-.download-main svg{width:35px;height:35px}
-.file-info{
- margin-top:23px;color:var(--muted);
- font-size:17px;font-weight:750;
+.download-main svg{
+ width:35px;
+ height:35px;
+ flex-shrink:0;
 }
-.badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:45px}
+.file-info{
+ margin-top:23px;
+ color:var(--muted);
+ font-size:17px;
+ font-weight:750;
+}
+.badges{
+ display:flex;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-top:45px;
+}
 .badge{
  border:1px solid var(--line);
- padding:15px 22px;border-radius:50px;
- display:flex;align-items:center;gap:12px;
- font-size:17px;font-weight:850;
+ padding:15px 22px;
+ border-radius:50px;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ font-size:17px;
+ font-weight:850;
  color:#d6e8ea;
 }
-.badge span{font-size:22px;color:var(--cyan)}
+.badge span{
+ font-size:22px;
+ color:var(--cyan);
+}
 
-/* PREVIEW */
+/* PHONE PREVIEW */
+
 .preview{
  padding:75px 0 60px;
- display:flex;justify-content:center;
+ display:flex;
+ justify-content:center;
  position:relative;
 }
 .phone{
- width:330px;min-height:490px;
- padding:12px;background:#11131a;
+ width:330px;
+ min-height:490px;
+ padding:12px;
+ background:#11131a;
  border:5px solid #292b34;
  border-radius:55px;
  box-shadow:0 25px 90px #0007;
  transform:rotate(-3deg);
 }
 .screen{
- min-height:460px;background:linear-gradient(145deg,#45415e,#172f3b);
- border-radius:40px;overflow:hidden;
- display:flex;flex-direction:column;
- align-items:center;justify-content:center;
+ min-height:460px;
+ background:linear-gradient(145deg,#45415e,#172f3b);
+ border-radius:40px;
+ overflow:hidden;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
  padding:25px;
 }
 .phone-logo{
- width:130px;height:130px;object-fit:contain;
- background:#e8f4f6;border-radius:42px;
+ width:130px;
+ height:130px;
+ object-fit:contain;
+ background:#e8f4f6;
+ border-radius:42px;
  padding:12px;
 }
-.phone-title{font-size:25px;font-weight:1000;margin-top:22px}
-.phone-sub{color:#c5d7dd;text-align:center;margin-top:8px}
+.phone-title{
+ font-size:25px;
+ font-weight:1000;
+ margin-top:22px;
+ text-align:center;
+}
+.phone-sub{
+ color:#c5d7dd;
+ text-align:center;
+ margin-top:8px;
+}
 .phone-line{
- width:65%;height:7px;background:#a4d7e2;
- border-radius:20px;margin-top:35px;opacity:.7;
+ width:65%;
+ height:7px;
+ background:#a4d7e2;
+ border-radius:20px;
+ margin-top:35px;
+ opacity:.7;
 }
 
-/* SECTIONS */
+/* FEATURES */
+
 section{padding:75px 0}
 .section-title{
- font-size:43px;font-weight:1000;
- margin:0 0 18px;letter-spacing:-1px;
+ font-size:43px;
+ font-weight:1000;
+ margin:0 0 18px;
+ letter-spacing:-1px;
 }
 .section-text{
- color:var(--muted);font-size:18px;
- line-height:1.8;font-weight:650;
+ color:var(--muted);
+ font-size:18px;
+ line-height:1.8;
+ font-weight:650;
 }
 .grid{
- display:grid;grid-template-columns:repeat(3,1fr);
- gap:17px;margin-top:35px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:17px;
+ margin-top:35px;
 }
 .card{
  background:var(--surface);
  border:1px solid var(--line);
  border-radius:32px 32px 32px 12px;
- padding:28px;transition:.3s;
+ padding:28px;
+ transition:.3s;
 }
-.card:hover{transform:translateY(-7px);background:var(--surface2)}
+.card:hover{
+ transform:translateY(-7px);
+ background:var(--surface2);
+}
 .card-icon{
- width:58px;height:58px;
- display:grid;place-items:center;
- background:#24434c;color:var(--cyan);
+ width:58px;
+ height:58px;
+ display:grid;
+ place-items:center;
+ background:#24434c;
+ color:var(--cyan);
  border-radius:23px 23px 23px 8px;
  font-size:27px;
 }
-.card h3{font-size:21px;margin:20px 0 10px}
-.card p{color:var(--muted);line-height:1.7;margin:0;font-weight:650}
+.card h3{
+ font-size:21px;
+ margin:20px 0 10px;
+}
+.card p{
+ color:var(--muted);
+ line-height:1.7;
+ margin:0;
+ font-weight:650;
+}
+
+/* ABOUT */
+
 .about{
  background:var(--surface);
  border:1px solid var(--line);
  border-radius:40px 40px 40px 12px;
  padding:40px;
 }
-.about-label{color:var(--cyan);font-weight:1000;letter-spacing:2px}
-.about h2{font-size:39px;line-height:1.2}
-.about p{color:var(--muted);font-size:17px;line-height:1.8}
-.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.about-label{
+ color:var(--cyan);
+ font-weight:1000;
+ letter-spacing:2px;
+}
+.about h2{
+ font-size:39px;
+ line-height:1.2;
+}
+.about p{
+ color:var(--muted);
+ font-size:17px;
+ line-height:1.8;
+}
+.links{
+ display:flex;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-top:25px;
+}
 .link-btn{
- display:inline-flex;padding:15px 24px;
- border-radius:40px;background:#23434c;
- color:var(--cyan);font-weight:1000;
+ display:inline-flex;
+ padding:15px 24px;
+ border-radius:40px;
+ background:#23434c;
+ color:var(--cyan);
+ font-weight:1000;
  transition:.2s;
 }
 .link-btn:hover{background:#315a65}
 
 /* COMMENTS */
-.comments{max-width:760px;margin:auto}
+
+.comments{
+ max-width:760px;
+ margin:auto;
+}
 .comment-form{
  background:var(--surface);
- padding:25px;border:1px solid var(--line);
+ padding:25px;
+ border:1px solid var(--line);
  border-radius:32px 32px 32px 12px;
 }
 .field{
- width:100%;padding:17px;
- background:#0b2026;color:white;
+ width:100%;
+ padding:17px;
+ background:#0b2026;
+ color:white;
  border:1px solid var(--line);
- border-radius:20px;margin-bottom:13px;
+ border-radius:20px;
+ margin-bottom:13px;
  outline:none;
 }
 .field:focus{border-color:var(--cyan)}
-textarea.field{height:120px;resize:vertical}
-.send{
- background:var(--cyan);color:#10242a;
- border:0;padding:15px 25px;
- border-radius:30px;font-weight:1000;
- cursor:pointer;
+textarea.field{
+ height:120px;
+ resize:vertical;
 }
+.send{
+ background:var(--cyan);
+ color:#10242a;
+ border:0;
+ padding:15px 25px;
+ border-radius:30px;
+ font-weight:1000;
+ cursor:pointer;
+ transition:.2s;
+}
+.send:hover{background:var(--cyan2)}
 .send:disabled{opacity:.5}
 .comment{
  background:var(--surface);
  border:1px solid var(--line);
  border-radius:25px 25px 25px 9px;
- padding:20px;margin-top:13px;
+ padding:20px;
+ margin-top:13px;
  overflow-wrap:anywhere;
 }
 .comment strong{color:var(--cyan)}
-.comment p{color:#c5d5d8;line-height:1.7}
+.comment p{
+ color:#c5d5d8;
+ line-height:1.7;
+}
 .comment small{color:#78969d}
 #comments-list{margin-top:20px}
-.status{color:var(--muted);font-size:14px;margin-top:12px}
+.status{
+ color:var(--muted);
+ font-size:14px;
+ margin-top:12px;
+}
 
 /* FOOTER */
+
 footer{
  border-top:1px solid var(--line);
- padding:35px 0;color:var(--muted);
+ padding:35px 0;
+ color:var(--muted);
 }
 .footer-inner{
- display:flex;justify-content:space-between;
- align-items:center;gap:20px;flex-wrap:wrap;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:20px;
+ flex-wrap:wrap;
 }
-.footer-links{display:flex;gap:20px}
+.footer-links{
+ display:flex;
+ gap:20px;
+}
 .footer-links a:hover{color:var(--cyan)}
 
 /* ANIMATIONS */
+
 .reveal{
- opacity:0;transform:translateY(35px);
+ opacity:0;
+ transform:translateY(35px);
  transition:opacity .8s,transform .8s;
 }
-.reveal.show{opacity:1;transform:translateY(0)}
+.reveal.show{
+ opacity:1;
+ transform:translateY(0);
+}
+
+/* MOBILE */
+
 @media(max-width:750px){
  .container{width:calc(100% - 36px)}
  nav{min-height:75px}
- .brand{font-size:19px;gap:7px}
- .brand img{width:38px;height:38px}
- .you{font-size:13px;padding:7px 12px}
- .nav-download{padding:12px 18px;font-size:14px}
+ .brand{
+  font-size:clamp(14px,4.3vw,19px);
+  gap:7px;
+ }
+ .brand img{
+  width:36px;
+  height:36px;
+ }
+ .you{
+  font-size:12px;
+  padding:6px 10px;
+ }
+ .nav-download{
+  padding:12px 17px;
+  font-size:14px;
+ }
  .hero{padding-top:65px}
- h1{font-size:65px}
+ h1{
+  font-size:clamp(36px,9.5vw,62px);
+  line-height:1.08;
+  letter-spacing:-1.5px;
+  margin:24px 0 28px;
+  overflow-wrap:anywhere;
+ }
+ h1 span{
+  display:block;
+  max-width:100%;
+ }
  .description{font-size:18px}
- .download-main{min-height:90px;font-size:23px;gap:12px;margin-top:45px}
+ .download-main{
+  min-height:90px;
+  font-size:23px;
+  gap:12px;
+  margin-top:45px;
+ }
  .file-info{font-size:14px}
- .badge{font-size:14px;padding:12px 16px}
+ .badge{
+  font-size:14px;
+  padding:12px 16px;
+ }
  .grid{grid-template-columns:1fr}
  .section-title{font-size:34px}
  .about{padding:25px}
  .about h2{font-size:32px}
  .phone{width:285px}
- .footer-inner{justify-content:center;text-align:center}
+ .footer-inner{
+  justify-content:center;
+  text-align:center;
+ }
 }
+
+@media(max-width:380px){
+ .brand{font-size:14px}
+ .brand img{width:31px;height:31px}
+ .you{font-size:11px;padding:5px 8px}
+ .nav-download{font-size:12px;padding:11px 13px}
+ h1{font-size:clamp(34px,9vw,42px)}
+ .eyebrow{font-size:12px;letter-spacing:2px}
+}
+
 @media(prefers-reduced-motion:reduce){
- *{scroll-behavior:auto!important;transition:none!important}
- .reveal{opacity:1;transform:none}
+ *{
+  scroll-behavior:auto!important;
+  transition:none!important;
+ }
+ .reveal{
+  opacity:1;
+  transform:none;
+ }
 }
 </style>
 </head>
+
 <body>
 
 <div class="background-shapes">
@@ -292,21 +538,29 @@ footer{
 </div>
 
 <header>
- <nav class="container">
-  <a class="brand" href="#">
-   <img src="logo.png" alt="Logo">
-   <span>TomatoCodeAI</span>
-   <span class="you">AI</span>
-  </a>
-  <a href="#download" class="nav-download">Скачать</a>
- </nav>
+<nav class="container">
+ <a class="brand" href="#">
+  <img src="logo.png" alt="TomatoCodeAI">
+  <span>TomatoCodeAI</span>
+  <span class="you">AI</span>
+ </a>
+ <a href="#download" class="nav-download">Скачать</a>
+</nav>
 </header>
 
 <main>
 
+<!-- HERO -->
+
 <div class="container hero reveal">
+
  <div class="eyebrow">APK ДЛЯ ANDROID</div>
- <h1>Скачать<br><span>TomatoCodeAI</span></h1>
+
+ <h1>
+  Скачать
+  <span>TomatoCodeAI</span>
+ </h1>
+
  <p class="description">
   TomatoCodeAI — твой AI-помощник для программирования.
   Создавай проекты, изучай код, находи решения и воплощай
@@ -320,7 +574,10 @@ footer{
    </svg>
    Скачать APK
   </a>
-  <div class="file-info" id="fileInfo">APK для Android · Последняя версия</div>
+
+  <div class="file-info">
+   APK для Android · Последняя версия
+  </div>
  </div>
 
  <div class="badges">
@@ -328,7 +585,10 @@ footer{
   <div class="badge"><span>♥</span> Бесплатно</div>
   <div class="badge"><span>⊘</span> Без рекламы</div>
  </div>
+
 </div>
+
+<!-- PHONE PREVIEW -->
 
 <div class="container preview reveal">
  <div class="phone">
@@ -341,91 +601,144 @@ footer{
  </div>
 </div>
 
-<section>
- <div class="container">
-  <div class="reveal">
-   <div class="eyebrow">ВОЗМОЖНОСТИ</div>
-   <h2 class="section-title">Больше, чем просто AI</h2>
-   <p class="section-text">
-    Инструмент для творчества, программирования и новых идей.
-   </p>
-  </div>
+<!-- FEATURES -->
 
-  <div class="grid">
-   <article class="card reveal">
-    <div class="card-icon">⌘</div>
-    <h3>Программирование</h3>
-    <p>Помощь с кодом, объяснение функций и поиск решений.</p>
-   </article>
-   <article class="card reveal">
-    <div class="card-icon">✦</div>
-    <h3>Искусственный интеллект</h3>
-    <p>Общайся с AI и обсуждай свои идеи и проекты.</p>
-   </article>
-   <article class="card reveal">
-    <div class="card-icon">⚡</div>
-    <h3>Твои проекты</h3>
-    <p>Развивай свои задумки и создавай что-то новое.</p>
-   </article>
-  </div>
+<section>
+<div class="container">
+
+ <div class="reveal">
+  <div class="eyebrow">ВОЗМОЖНОСТИ</div>
+  <h2 class="section-title">Больше, чем просто AI</h2>
+  <p class="section-text">
+   Инструмент для творчества, программирования и новых идей.
+  </p>
  </div>
+
+ <div class="grid">
+
+  <article class="card reveal">
+   <div class="card-icon">⌘</div>
+   <h3>Программирование</h3>
+   <p>Помощь с кодом, объяснение функций и поиск решений.</p>
+  </article>
+
+  <article class="card reveal">
+   <div class="card-icon">✦</div>
+   <h3>Искусственный интеллект</h3>
+   <p>Общайся с AI и обсуждай свои идеи и проекты.</p>
+  </article>
+
+  <article class="card reveal">
+   <div class="card-icon">⚡</div>
+   <h3>Твои проекты</h3>
+   <p>Развивай свои задумки и создавай что-то новое.</p>
+  </article>
+
+ </div>
+</div>
 </section>
 
+<!-- ABOUT -->
+
 <section>
- <div class="container">
-  <div class="about reveal">
-   <div class="about-label">ABOUT TOMATOCODEAI</div>
-   <h2>Создан для тех, кто хочет большего.</h2>
-   <p>
-    TomatoCodeAI — пространство для идей и технологий.
-    Мы развиваем приложение и добавляем новые возможности,
-    чтобы программирование становилось доступнее.
-   </p>
-   <div class="links">
-    <a class="link-btn" href="https://t.me/TomatocodeAI" target="_blank">Telegram ↗</a>
-    <a class="link-btn" href="https://slimchat.me/g/tomatocodeAI" target="_blank">SlimChat ↗</a>
-   </div>
+<div class="container">
+ <div class="about reveal">
+
+  <div class="about-label">ABOUT TOMATOCODEAI</div>
+
+  <h2>Создан для тех, кто хочет большего.</h2>
+
+  <p>
+   TomatoCodeAI — пространство для идей и технологий.
+   Мы развиваем приложение и добавляем новые возможности,
+   чтобы программирование становилось доступнее.
+  </p>
+
+  <div class="links">
+   <a class="link-btn"
+      href="https://t.me/TomatocodeAI"
+      target="_blank">
+      Telegram ↗
+   </a>
+
+   <a class="link-btn"
+      href="https://slimchat.me/g/tomatocodeAI"
+      target="_blank">
+      SlimChat ↗
+   </a>
   </div>
+
  </div>
+</div>
 </section>
 
+<!-- COMMENTS -->
+
 <section>
- <div class="container comments">
-  <div class="reveal">
-   <div class="eyebrow">COMMUNITY</div>
-   <h2 class="section-title">Комментарии</h2>
-   <p class="section-text">Поделись мнением о приложении!</p>
-  </div>
+<div class="container comments">
 
-  <form class="comment-form reveal" id="form">
-   <input class="field" id="name" maxlength="32"
-    placeholder="Твоё имя" required>
-   <textarea class="field" id="message" maxlength="500"
-    placeholder="Напиши комментарий..." required></textarea>
-   <button class="send" type="submit">Отправить ↗</button>
-   <div class="status" id="status"></div>
-  </form>
-
-  <div id="comments-list">
-   <p class="status">Загрузка комментариев...</p>
-  </div>
+ <div class="reveal">
+  <div class="eyebrow">COMMUNITY</div>
+  <h2 class="section-title">Комментарии</h2>
+  <p class="section-text">
+   Поделись мнением о приложении!
+  </p>
  </div>
+
+ <form class="comment-form reveal" id="form">
+
+  <input
+   class="field"
+   id="name"
+   maxlength="32"
+   placeholder="Твоё имя"
+   required
+  >
+
+  <textarea
+   class="field"
+   id="message"
+   maxlength="500"
+   placeholder="Напиши комментарий..."
+   required
+  ></textarea>
+
+  <button class="send" type="submit">
+   Отправить ↗
+  </button>
+
+  <div class="status" id="status"></div>
+
+ </form>
+
+ <div id="comments-list">
+  <p class="status">Загрузка комментариев...</p>
+ </div>
+
+</div>
 </section>
 
 </main>
 
+<!-- FOOTER -->
+
 <footer>
- <div class="container footer-inner">
-  <div>© 2026 TomatoCodeAI</div>
-  <div class="footer-links">
-   <a href="https://t.me/TomatocodeAI">Telegram</a>
-   <a href="https://slimchat.me/g/tomatocodeAI">SlimChat</a>
-  </div>
+<div class="container footer-inner">
+
+ <div>© 2026 TomatoCodeAI</div>
+
+ <div class="footer-links">
+  <a href="https://t.me/TomatocodeAI">Telegram</a>
+  <a href="https://slimchat.me/g/tomatocodeAI">SlimChat</a>
  </div>
+
+</div>
 </footer>
 
+<!-- SCROLL ANIMATIONS -->
+
 <script>
-const observer=new IntersectionObserver(entries=>{
+const observer = new IntersectionObserver(entries=>{
  entries.forEach(entry=>{
   if(entry.isIntersecting){
    entry.target.classList.add('show');
@@ -434,18 +747,29 @@ const observer=new IntersectionObserver(entries=>{
  });
 },{threshold:.1});
 
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el=>{
+ observer.observe(el);
+});
 </script>
 
+<!-- FIREBASE -->
+
 <script type="module">
+
 import {initializeApp}
  from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
 import {
- getDatabase,ref,push,onValue,query,orderByChild,limitToLast
+ getDatabase,
+ ref,
+ push,
+ onValue,
+ query,
+ orderByChild,
+ limitToLast
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 
-const firebaseConfig={
+const firebaseConfig = {
  apiKey:"AIzaSyDHzkpc_3kAA6jQE3wgnwJBhrUh_TV2HHI",
  authDomain:"tomatocodebase.firebaseapp.com",
  databaseURL:"https://tomatocodebase-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -456,64 +780,83 @@ const firebaseConfig={
  measurementId:"G-CF36XR1Y8H"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-const commentsRef=ref(db,"comments");
-const list=document.getElementById("comments-list");
-const form=document.getElementById("form");
-const status=document.getElementById("status");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-const commentsQuery=query(
+const commentsRef = ref(db,"comments");
+
+const list = document.getElementById("comments-list");
+const form = document.getElementById("form");
+const status = document.getElementById("status");
+
+const commentsQuery = query(
  commentsRef,
  orderByChild("createdAt"),
  limitToLast(100)
 );
 
+// LIVE COMMENTS
+
 onValue(commentsQuery,snapshot=>{
- list.innerHTML="";
+
+ list.innerHTML = "";
 
  if(!snapshot.exists()){
-  list.textContent="Пока нет комментариев. Будь первым!";
+  list.textContent = "Пока нет комментариев. Будь первым!";
   return;
  }
 
- const comments=[];
- snapshot.forEach(child=>comments.push(child.val()));
+ const comments = [];
+
+ snapshot.forEach(child=>{
+  comments.push(child.val());
+ });
 
  comments.reverse().forEach(item=>{
-  const card=document.createElement("div");
-  card.className="comment";
 
-  const name=document.createElement("strong");
-  name.textContent=item.name;
+  const card = document.createElement("div");
+  card.className = "comment";
 
-  const message=document.createElement("p");
-  message.textContent=item.message;
+  const name = document.createElement("strong");
+  name.textContent = item.name;
 
-  const date=document.createElement("small");
-  date.textContent=new Date(item.createdAt).toLocaleString("ru-RU");
+  const message = document.createElement("p");
+  message.textContent = item.message;
+
+  const date = document.createElement("small");
+  date.textContent = new Date(item.createdAt)
+   .toLocaleString("ru-RU");
 
   card.append(name,message,date);
   list.append(card);
+
  });
+
 },error=>{
+
  console.error(error);
- list.textContent="Ошибка загрузки комментариев.";
+ list.textContent = "Ошибка загрузки комментариев.";
+
 });
 
+// SEND COMMENT
+
 form.addEventListener("submit",async e=>{
+
  e.preventDefault();
 
- const name=document.getElementById("name").value.trim();
- const message=document.getElementById("message").value.trim();
+ const name = document.getElementById("name").value.trim();
+ const message = document.getElementById("message").value.trim();
 
- if(!name||!message)return;
+ if(!name || !message)return;
 
- const button=form.querySelector("button");
- button.disabled=true;
- status.textContent="Отправка...";
+ const button = form.querySelector("button");
+
+ button.disabled = true;
+ status.textContent = "Отправка...";
 
  try{
+
   await push(commentsRef,{
    name:name.slice(0,32),
    message:message.slice(0,500),
@@ -521,14 +864,21 @@ form.addEventListener("submit",async e=>{
   });
 
   form.reset();
-  status.textContent="Комментарий опубликован! ✦";
+  status.textContent = "Комментарий опубликован! ✦";
+
  }catch(error){
+
   console.error(error);
-  status.textContent="Ошибка отправки. Проверь Firebase Rules.";
+  status.textContent = "Ошибка отправки. Проверь Firebase Rules.";
+
  }finally{
-  button.disabled=false;
+
+  button.disabled = false;
+
  }
+
 });
+
 </script>
 
 </body>
